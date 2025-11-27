@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useReducer, useState } from "react";
+import Table from "./core/Table";
+import TableSettingsForm from "./components/TableSettingsForm";
+import TableView from "./components/TableView";
+import { tableReducer } from "./state/table_state";
 
-function App() {
-  const [count, setCount] = useState(0)
+
+
+export default function App() {
+  const [tableState, dispatchTable] = useReducer(
+    tableReducer,
+    new Table({ name: "", rowsAmount: 2, columnsAmount: 5 })
+  );
+  const [tableEmpty, setTableEmpty] = useState(true);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div id="app">
+      {
+        tableEmpty ?
+        <TableSettingsForm currentTable={tableState} dispatchCurrentTable={dispatchTable} /> :
+        <TableView />
+      }
+    </div>
+  );
 }
-
-export default App
