@@ -3,8 +3,7 @@ import Table from "./core/Table";
 import TableSettingsForm from "./components/TableSettingsForm";
 import TableView from "./components/TableView";
 import { tableReducer } from "./state/table_state";
-
-
+import "./styles/global.css"
 
 export default function App() {
   const [tableState, dispatchTable] = useReducer(
@@ -17,8 +16,8 @@ export default function App() {
     <div id="app">
       {
         tableEmpty ?
-        <TableSettingsForm currentTable={tableState} dispatchCurrentTable={dispatchTable} /> :
-        <TableView />
+        <TableSettingsForm setTableEmpty={setTableEmpty} currentTable={tableState} dispatchCurrentTable={dispatchTable} /> :
+        <TableView currentTable={tableState} setTableEmpty={setTableEmpty} />
       }
     </div>
   );

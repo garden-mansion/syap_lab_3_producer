@@ -1,0 +1,26 @@
+.table-settings-form {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 1rem;
+    justify-content: space-evenly;
+    align-items: stretch;
+
+    max-width: 75%;
+    margin: auto;
+    padding: 0.5rem;
+
+    border: 1px solid lightgray;
+    border-radius: 1rem;
+}
+
+.table-settings-form__headers-inputs-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+button.table-settings-form__submit-button {
+    /* открыл инструменты разработчик в браузере и посмотрел название переменной  */
+    /* наверное так делать не стоит, потом исправлю */
+    border: 1px solid var(--variant-textColor);
+}
