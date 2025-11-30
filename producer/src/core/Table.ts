@@ -1,20 +1,22 @@
-interface TableModelProps {
+import { type MyTableRow } from "../components/utils/types";
+
+interface MyTableProps {
   name: string;
   rowsAmount: number;
   columnsAmount: number;
   headers?: string[];
-  table_data?: string[][];
+  table_data?: MyTableRow[];
 }
 
-export default class Table {
+export default class MyTable {
   name: string;
   rowsAmount: number;
   columnsAmount: number;
   headers: string[];
-  table_data: string[][];
+  table_data: MyTableRow[];
 
 
-  constructor({ name, rowsAmount, columnsAmount, headers, table_data }: TableModelProps) {
+  constructor({ name, rowsAmount, columnsAmount, headers, table_data }: MyTableProps) {
     this.name = name;
     this.rowsAmount = rowsAmount;
     this.columnsAmount = columnsAmount;
@@ -22,67 +24,39 @@ export default class Table {
     if (headers !== undefined) {
       this.headers = headers;
     } else {
-      this.headers = Array(columnsAmount).fill("");
+      this.headers = this.#initEmptyHeaders();
     }
 
     if (table_data !== undefined) {
       this.table_data = table_data;
     } else {
-      this.table_data = this.#initEmptyTable();
+      this.table_data = [];
     }
   }
 
-  #initEmptyTable() {
-    const emptyTable: string[][] = [];
+  #initEmptyHeaders() {
+    const emptyHeaders: string[] = [];
+
+    for (let i = 0; i < this.columnsAmount; ++i) {
+      emptyHeaders.push(`header_${i}`)
+    };
+
+    return emptyHeaders;
+  }
+
+  initEmptyTable(): undefined {
+    const emptyTable: Map<string, string>[] = [];
 
     for (let i = 0; i < this.rowsAmount; ++i) {
-      emptyTable.push([]);
+      const rowRecord = new Map<string, string>();
 
-      for (let j = 0; j < this.columnsAmount; ++j) {
-        emptyTable[i].push("");
+      for (let j = 0; j < this.headers.length; ++j) {
+        rowRecord.set(this.headers[j], "");
       }
+
+      emptyTable.push(rowRecord);
     }
 
-    return emptyTable
-  }
-
-  // setName(newName: string) {
-  //   this.name = newName;
-  // }
-
-  // setRowsAmount(rowsAmount: number) {
-  //   this.rowsAmount = rowsAmount;
-  // }
-
-  // setColumnsAmount(columnsAmount: number) {
-  //   this.columnsAmount = columnsAmount;
-  // }
-
-  // /**
-  //  * Устанавливает заголовок value по индексу index
-  //  *
-  //  * @param {number} index - индекс заголовка который надо задать
-  //  * @param {string} value - новое значение
-  //  */
-  // setHeader(index: number, value: string) {
-
-  //   if (index < 0 || index >= this.columnsAmount) {
-  //     throw new Error(`invalid index for header\nindex=${index}`);
-  //   }
-  //   this.headers[index] = value;
-  // }
-
-  /**
-    * Устанавливает значение value в ячейку с координатами row, column 
-    * @param {{ row: number, column: number, value: string }} props - координаты строки, столбца, значение
-    */
-  setValue(props: { row: number, column: number, value: string, }) {
-    const { row, column, value, } = props;
-
-    if (row < 0 || column < 0 || row >= this.rowsAmount || column >= this.columnsAmount) {
-      throw new Error(`невалидные индексы: row: ${row}, col: ${column}`);
-    }
-
-    this.table_data[row][column] = value;
+    this.table_data = emptyTable;
   }
 }

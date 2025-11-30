@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react";
-import Table from "./core/Table";
+import MyTable from "./core/Table";
 import TableSettingsForm from "./components/TableSettingsForm";
 import TableView from "./components/TableView";
 import { tableReducer } from "./state/table_state";
@@ -8,7 +8,7 @@ import "./styles/global.css"
 export default function App() {
   const [tableState, dispatchTable] = useReducer(
     tableReducer,
-    new Table({ name: "", rowsAmount: 2, columnsAmount: 5 })
+    new MyTable({ name: "default", rowsAmount: 1, columnsAmount: 3 })
   );
   const [tableEmpty, setTableEmpty] = useState(true);
 
@@ -17,7 +17,7 @@ export default function App() {
       {
         tableEmpty ?
         <TableSettingsForm setTableEmpty={setTableEmpty} currentTable={tableState} dispatchCurrentTable={dispatchTable} /> :
-        <TableView currentTable={tableState} setTableEmpty={setTableEmpty} />
+        <TableView currentTable={tableState} dispatchCurrentTable={dispatchTable} setTableEmpty={setTableEmpty} />
       }
     </div>
   );

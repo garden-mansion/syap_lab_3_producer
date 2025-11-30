@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Table from "../core/Table";
+import MyTable from "../core/Table";
 import { type DispatchTableAction } from "../state/table_state";
 import NumberField from "./base-ui-components/NumberField";
 import "../styles/table-settings-form.css";
@@ -8,7 +8,7 @@ import { useState } from "react";
 import BasicModal from "./base-ui-components/BasicModel";
 
 interface TableSettingsFormProps {
-  currentTable: Table;
+  currentTable: MyTable;
   dispatchCurrentTable: React.ActionDispatch<[action: DispatchTableAction]>;
   setTableEmpty: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -20,11 +20,9 @@ export default function TableSettingsForm({
 }: TableSettingsFormProps) {
   const MIN_ROWS_AMOUNT = 1;
   const MAX_ROWS_AMOUNT = 100;
-  const DEFAULT_ROWS_AMOUNT = 5;
 
   const MIN_COLUMNS_AMOUNT = 1;
   const MAX_COLUMNS_AMOUNT = 100;
-  const DEFAULT_COLUMNS_AMOUNT = 5;
 
   // modal setup
   const [open, setOpen] = useState(false);
@@ -63,6 +61,7 @@ export default function TableSettingsForm({
       setOpen((prevOpen) => !prevOpen);
     } else {
       setTableEmpty((prevTableEmpty) => !prevTableEmpty);
+      currentTable.initEmptyTable();
     }
   };
 
@@ -107,7 +106,6 @@ export default function TableSettingsForm({
             min={MIN_ROWS_AMOUNT}
             max={MAX_ROWS_AMOUNT}
             size="small"
-            defaultValue={DEFAULT_ROWS_AMOUNT}
             // error
           />
         </div>
@@ -128,7 +126,6 @@ export default function TableSettingsForm({
             min={MIN_COLUMNS_AMOUNT}
             max={MAX_COLUMNS_AMOUNT}
             size="small"
-            defaultValue={DEFAULT_COLUMNS_AMOUNT}
             // error
           />
         </div>
